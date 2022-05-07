@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Consulta</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+	<section class="container pt-5">
+	<h1 class="text-center text-primary">Movimientos</h1>
+	
+	<form th:action="@{/movimiento}" th:object="${cuenta}" method="POST" >
+					<div class="row gy-3">
+						
+						<div class="col-12 col-lg-9 text-center text-lg-end">
+						    
+					            <select th:field="${cuenta.id}" class="form-select" >
+						        <option th:each=" cuenta: ${cuentas}" th:value="${cuenta.id}" th:text="${cuenta.numero_cuenta}" >
+						        </option>
+						        </select>
+						</div>
+
+						<div class="col-12 col-lg-3 text-center text-lg-start">
+							
+							 <input type="Submit" th:value="'ver Movimientos'" class="btn btn-success" />
+							
+							<a href="/" class="text-decoration-none text-danger">
+							<button type="button" class="btn btn-outline-danger" >Regresar</button></a>
+						</div>
+						
+						
+					</div>
+				</form>
+       
+
+	
+	<span th:if="${saldo !=null}" >
+		<div class="w-100 d-flex justify-content-end">
+		<span>Saldo: <strong class="text-primary" th:value="${saldo}"></strong></span>
+		</div>
+	</span>
+
+
+	<table class="table">
+  <thead>
+    <tr>
+      	<th scope="col">id</th>
+	    <th scope="col">Descripcion</td>
+	    <th scope="col">Ingresos</th>
+	    <th scope="col">Gastos</th>
+	    <th scope="col">Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+  	  <tr th:each="mov : ${movimientos} "  >
+	    <td th:text="${mov.id}" scope="row"></td>
+	    <td th:text="${mov.descripcion}"></td>
+	    <td th:text="${mov.ingreso}" class="text-success"></td>
+	     <td th:text="${mov.gasto}" class="text-danger"></td>
+	     <td th:text="${(mov.saldo_ant + mov.ingreso - mov.gasto) }"></td>
+	  </tr>
+
+    
+  </tbody>
+</table>
+
+</section>
+	
+</body>
+</html>
+
